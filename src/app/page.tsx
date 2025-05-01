@@ -4,6 +4,7 @@ import Link from "next/link";
 import ContactForm from "./components/contact-form";
 import ProjectCard from "./components/project-card";
 import TechStack from "./components/tech-stack";
+import { EducationCard } from "@/components/education-card";
 
 export default function Page() {
   return (
@@ -111,6 +112,40 @@ export default function Page() {
               Tech Stack
             </h2>
             <TechStack />
+          </div>
+        </section>
+
+        <section id="education" className="py-20 bg-muted/50">
+          <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+              Education
+            </h2>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <EducationCard
+                logoUrl="/logos/iu-logo.jpg"
+                school="IU International University of Applied Sciences"
+                degree="Bachelor of Science - BSc, Computer Science"
+                start="Oct 2024"
+                end="Apr 2028"
+                description="Comprehensive BSc program focusing on theoretical and practical aspects of computer science."
+              />
+              <EducationCard
+                logoUrl="/logos/hyperiondev-logo.png"
+                school="HyperionDev & The University of Stellenbosch"
+                degree="Full-Stack Web Development Bootcamp"
+                start="Jul 2024"
+                end="Apr 2025"
+                description="Intensive bootcamp in full-stack web development, taught in collaboration with Stellenbosch University."
+              />
+              <EducationCard
+                logoUrl="/logos/vega-logo.png"
+                school="Vega School"
+                degree="Bachelor of Commerce - Digital Marketing"
+                start="Jan 2021"
+                end="Nov 2023"
+                description="Specialised in digital marketing strategy, branding, and social media communications."
+              />
+            </div>
           </div>
         </section>
 

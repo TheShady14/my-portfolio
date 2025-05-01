@@ -30,26 +30,29 @@ export function ResumeCard({
     if (href) {
       return (
         <Link href={href} target="_blank">
-          <Card className="overflow-hidden transition-all hover:border-primary/50 hover:shadow-sm">
+          <Card className="overflow-hidden transition-all hover:border-primary/50 hover:shadow-sm h-full flex flex-col">
             {children}
           </Card>
         </Link>
       );
     }
-    return <Card className="overflow-hidden">{children}</Card>;
+    return (
+      <Card className="overflow-hidden h-full flex flex-col">{children}</Card>
+    );
   };
 
   return (
     <CardWrapper>
-      <CardContent className="p-4">
-        <div className="flex items-start gap-4">
+      <CardContent className="p-4 flex-1 flex flex-col">
+        <div className="flex flex-col gap-4 h-full">
           {logoUrl && (
-            <div className="relative h-12 w-12 overflow-hidden rounded-md border">
+            <div className="w-full h-28 flex justify-center items-center bg-white rounded-md overflow-hidden">
               <Image
-                src={logoUrl || "/placeholder.svg"}
+                src={logoUrl}
                 alt={altText}
-                fill
-                className="object-cover"
+                width={100}
+                height={100}
+                className="object-contain max-h-full"
               />
             </div>
           )}

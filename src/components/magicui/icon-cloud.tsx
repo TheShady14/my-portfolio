@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { useTheme } from "next-themes";
 
 interface IconCloudProps {
   images: string[];
@@ -34,8 +35,28 @@ export function IconCloud({
   const speedRef = useRef<number>(initialSpeed);
   const activeRef = useRef<boolean>(false);
   const frameIdRef = useRef<number | null>(null);
+  const spritesRef = useRef<THREE.Sprite[]>([]);
 
   const [loaded, setLoaded] = useState(false);
+  const { theme } = useTheme();
+
+  // Function to update sprite colors based on theme
+  const updateSpriteColors = () => {
+    if (!spritesRef.current) return;
+
+    const color = theme === "dark" ? 0xffffff : 0x000000;
+
+    spritesRef.current.forEach((sprite) => {
+      if (sprite.material instanceof THREE.SpriteMaterial) {
+        sprite.material.color.set(color);
+      }
+    });
+  };
+
+  // Effect to handle theme changes
+  useEffect(() => {
+    updateSpriteColors();
+  }, [theme]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -66,6 +87,13 @@ export function IconCloud({
     sphereRef.current = sphere;
     scene.add(sphere);
 
+    // Default color based on theme
+    const initialColor = theme === "dark" ? 0xffffff : 0x000000;
+
+    // Store all sprites for later theme updates
+    const sprites: THREE.Sprite[] = [];
+    spritesRef.current = sprites;
+
     // Load textures and create sprites
     const textureLoader = new THREE.TextureLoader();
     let loadedCount = 0;
@@ -76,7 +104,7 @@ export function IconCloud({
         (texture) => {
           const material = new THREE.SpriteMaterial({
             map: texture,
-            color: 0xffffff,
+            color: initialColor,
           });
           const sprite = new THREE.Sprite(material);
 
@@ -92,6 +120,7 @@ export function IconCloud({
           sprite.scale.set(imageSize, imageSize, 1);
 
           sphere.add(sprite);
+          sprites.push(sprite);
 
           loadedCount++;
           if (loadedCount === images.length) {

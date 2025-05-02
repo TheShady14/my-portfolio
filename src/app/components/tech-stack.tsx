@@ -7,6 +7,7 @@ import { IconCloud } from "../../components/magicui/icon-cloud";
 const techIcons = [
   "apache-superset",
   "bootstrap",
+  "docker",
   "chakraui",
   "chartdotjs",
   "css3",
@@ -19,12 +20,12 @@ const techIcons = [
   "google-cloud",
   "html5",
   "javascript",
+  "jest",
   "jquery",
   "mongodb",
   "netlify",
   "nextdotjs",
   "nodedotjs",
-  "notion",
   "npm",
   "pnpm",
   "postman",
@@ -60,7 +61,7 @@ export default function TechStack() {
       <div className="h-[500px] w-full">
         <IconCloud
           images={techIcons.map(
-            (name) => `/icons/${name.toLowerCase().replace(/\s+/g, "-")}.png`
+            (name) => `/icons/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
           )}
           imageSize={40}
           radius={180}
@@ -80,7 +81,7 @@ export default function TechStack() {
                 "JavaScript",
                 "TypeScript",
                 "React",
-                "Next JS",
+                "Next.js",
                 "Redux",
                 "TailwindCSS",
                 "Bootstrap",
@@ -92,7 +93,8 @@ export default function TechStack() {
                 "React Native",
                 "Expo",
                 "Vite",
-                "Three js",
+                "Three.js",
+                "Jest",
               ].map((tech) => (
                 <span
                   key={tech}
@@ -149,7 +151,7 @@ export default function TechStack() {
                 "Vercel",
                 "WordPress",
                 "Twilio",
-                "Notion",
+                "Docker",
                 "Context-API",
                 "jQuery",
                 "Ruby",

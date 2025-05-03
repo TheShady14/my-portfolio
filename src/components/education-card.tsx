@@ -49,16 +49,16 @@ export function EducationCard({
           />
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] bg-card text-card-foreground">
         <DialogHeader>
-          <DialogTitle>{degree}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-foreground">{degree}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             {school} • {start} - {end}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center gap-4">
           {certificateUrl && (
-            <div className="relative w-full h-[400px] border rounded-md overflow-hidden">
+            <div className="relative w-full h-[400px] border rounded-md overflow-hidden bg-muted">
               <Image
                 src={certificateUrl || "/placeholder.svg"}
                 alt={`${degree} certificate`}

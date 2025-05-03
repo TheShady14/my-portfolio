@@ -1,101 +1,60 @@
-import { Badge } from "@/components/ui/badge";
+"use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Github, LinkIcon } from "lucide-react";
-import Image from "next/image";
+import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface ProjectCardProps {
   title: string;
   description: string;
-  image?: string;
-  video?: string;
-  dates?: string;
+  image: string;
+  link: string;
   tags: string[];
-  href?: string;
-  links?: {
-    github?: string;
-    demo?: string;
-  };
 }
 
-export function ProjectCard({
+export default function ProjectCard({
   title,
   description,
   image,
-  video,
-  dates,
+  link,
   tags,
-  href,
-  links,
 }: ProjectCardProps) {
   return (
-    <Card className="overflow-hidden h-full flex flex-col">
-      <div className="relative aspect-video">
-        {video ? (
-          <video
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="object-cover w-full h-full"
-          />
-        ) : (
-          <Image
-            src={image || "/placeholder.svg?height=400&width=600"}
-            alt={title}
-            fill
-            className="object-cover transition-transform hover:scale-105"
-          />
-        )}
-      </div>
-      <CardContent className="p-4 flex-grow">
-        <div className="flex justify-between items-start">
-          <h3 className="font-semibold text-xl mb-2">{title}</h3>
-          {dates && (
-            <span className="text-xs text-muted-foreground">{dates}</span>
-          )}
+    <Card className="overflow-hidden group transition-all duration-300 hover:shadow-lg border bg-card">
+      <div className="relative aspect-video overflow-hidden bg-muted">
+        <img
+          src={image || "/placeholder.svg"}
+          alt={title}
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+        />
+        {/* Overlay with gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-4 right-4 flex gap-2">
+            <Link href={link} target="_blank">
+              <Button size="sm" variant="secondary" className="rounded-full">
+                <Github className="mr-1 h-4 w-4" /> Code
+              </Button>
+            </Link>
+            <Button size="sm" variant="default" className="rounded-full">
+              <ExternalLink className="mr-1 h-4 w-4" /> Demo
+            </Button>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground mb-4">{description}</p>
+      </div>
+      <CardContent className="p-6">
+        <h3 className="text-xl font-bold mb-2 text-foreground">{title}</h3>
+        <p className="text-muted-foreground">{description}</p>
+      </CardContent>
+      <CardFooter className="px-6 pb-6 pt-0">
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Badge
+            <span
               key={tag}
-              variant="outline"
-              className="bg-primary/10 text-primary border-primary/20"
+              className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full"
             >
               {tag}
-            </Badge>
+            </span>
           ))}
-        </div>
-      </CardContent>
-      <CardFooter className="p-4 pt-0 flex justify-between">
-        {href && (
-          <Link href={href} className="text-sm hover:underline">
-            Learn more
-          </Link>
-        )}
-        <div className="flex gap-2">
-          {links?.github && (
-            <Link
-              href={links.github}
-              target="_blank"
-              className="hover:text-primary"
-            >
-              <Github className="h-4 w-4" />
-              <span className="sr-only">GitHub</span>
-            </Link>
-          )}
-          {links?.demo && (
-            <Link
-              href={links.demo}
-              target="_blank"
-              className="hover:text-primary"
-            >
-              <LinkIcon className="h-4 w-4" />
-              <span className="sr-only">Demo</span>
-            </Link>
-          )}
         </div>
       </CardFooter>
     </Card>

@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "../../components/ui/button";
-import { Card } from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { submitContactForm } from "../actions";
 
@@ -24,25 +24,45 @@ export default function ContactForm() {
   }
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 bg-card text-card-foreground">
       <form action={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-2">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium mb-2 text-foreground"
+          >
             Name
           </label>
-          <Input id="name" name="name" required />
+          <Input id="name" name="name" required className="bg-background" />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium mb-2 text-foreground"
+          >
             Email
           </label>
-          <Input id="email" name="email" type="email" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            required
+            className="bg-background"
+          />
         </div>
         <div>
-          <label htmlFor="message" className="block text-sm font-medium mb-2">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium mb-2 text-foreground"
+          >
             Message
           </label>
-          <Textarea id="message" name="message" required />
+          <Textarea
+            id="message"
+            name="message"
+            required
+            className="bg-background"
+          />
         </div>
         <Button type="submit" className="w-full" disabled={pending}>
           {pending ? "Sending..." : "Send Message"}

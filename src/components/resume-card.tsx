@@ -1,19 +1,15 @@
-import type React from "react";
-import { Badge } from "@/components/ui/badge";
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
-import Link from "next/link";
 
 interface ResumeCardProps {
   logoUrl?: string;
   altText: string;
   title: string;
   subtitle: string;
-  period?: string;
+  period: string;
   description?: string;
-  href?: string;
-  badges?: string[];
 }
 
 export function ResumeCard({
@@ -23,64 +19,33 @@ export function ResumeCard({
   subtitle,
   period,
   description,
-  href,
-  badges,
 }: ResumeCardProps) {
-  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
-    if (href) {
-      return (
-        <Link href={href} target="_blank">
-          <Card className="overflow-hidden transition-all hover:border-primary/50 hover:shadow-sm h-full flex flex-col">
-            {children}
-          </Card>
-        </Link>
-      );
-    }
-    return (
-      <Card className="overflow-hidden h-full flex flex-col">{children}</Card>
-    );
-  };
-
   return (
-    <CardWrapper>
-      <CardContent className="p-4 flex-1 flex flex-col">
-        <div className="flex flex-col gap-4 h-full">
+    <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-md bg-card">
+      <CardContent className="p-6 flex flex-col h-full">
+        <div className="flex items-center gap-4 mb-4">
           {logoUrl && (
-            <div className="w-full h-28 flex justify-center items-center bg-white rounded-md overflow-hidden">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden bg-background flex-shrink-0">
               <Image
-                src={logoUrl}
+                src={logoUrl || "/placeholder.svg"}
                 alt={altText}
-                width={100}
-                height={100}
-                className="object-contain max-h-full"
+                fill
+                className="object-contain p-1"
               />
             </div>
           )}
-          <div className="flex-1 space-y-1">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">{title}</h3>
-              {period && (
-                <span className="text-xs text-muted-foreground">{period}</span>
-              )}
-            </div>
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
-            {description && (
-              <p className={cn("text-sm text-muted-foreground pt-2")}>
-                {description}
-              </p>
-            )}
-            {badges && badges.length > 0 && (
-              <div className="flex flex-wrap gap-1 pt-2">
-                {badges.map((badge) => (
-                  <Badge key={badge} variant="outline">
-                    {badge}
-                  </Badge>
-                ))}
-              </div>
-            )}
+          <div>
+            <h3 className="font-medium text-foreground">{title}</h3>
+            <p className="text-sm text-muted-foreground">{period}</p>
           </div>
         </div>
+        <div>
+          <h4 className="font-medium text-foreground mb-2">{subtitle}</h4>
+          {description && (
+            <p className="text-sm text-muted-foreground">{description}</p>
+          )}
+        </div>
       </CardContent>
-    </CardWrapper>
+    </Card>
   );
 }

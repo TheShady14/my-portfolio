@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { IconCloud } from "../../components/magicui/icon-cloud";
+import { IconCloud } from "@/components/magicui/icon-cloud";
+import { useTheme } from "@/components/theme-provider";
 
 const techIcons = [
   "apache-superset",
@@ -48,6 +49,8 @@ const techIcons = [
 
 export default function TechStack() {
   const [mounted, setMounted] = useState(false);
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   useEffect(() => {
     setMounted(true);
@@ -55,13 +58,17 @@ export default function TechStack() {
 
   if (!mounted) return null;
 
+  // Determine which icon set to use based on theme
+  const iconFolder = isDarkMode ? "/icons/dark" : "/icons/light";
+
   return (
     <div className="space-y-8">
       {/* IconCloud Section */}
       <div className="h-[500px] w-full">
         <IconCloud
           images={techIcons.map(
-            (name) => `/icons/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
+            (name) =>
+              `${iconFolder}/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
           )}
           imageSize={40}
           radius={180}
@@ -71,8 +78,10 @@ export default function TechStack() {
       {/* Tech Categories */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Frontend */}
-        <Card className="overflow-hidden">
-          <div className="bg-primary/10 py-2 px-4 font-medium">Frontend</div>
+        <Card className="overflow-hidden bg-card">
+          <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
+            Frontend
+          </div>
           <CardContent className="p-6">
             <div className="flex flex-wrap gap-2">
               {[
@@ -98,7 +107,7 @@ export default function TechStack() {
               ].map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full bg-secondary px-3 py-1 text-sm font-medium"
+                  className="rounded-full bg-secondary text-secondary-foreground px-3 py-1 text-sm font-medium"
                 >
                   {tech}
                 </span>
@@ -108,8 +117,10 @@ export default function TechStack() {
         </Card>
 
         {/* Backend */}
-        <Card className="overflow-hidden">
-          <div className="bg-primary/10 py-2 px-4 font-medium">Backend</div>
+        <Card className="overflow-hidden bg-card">
+          <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
+            Backend
+          </div>
           <CardContent className="p-6">
             <div className="flex flex-wrap gap-2">
               {[
@@ -125,7 +136,7 @@ export default function TechStack() {
               ].map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full bg-secondary px-3 py-1 text-sm font-medium"
+                  className="rounded-full bg-secondary text-secondary-foreground px-3 py-1 text-sm font-medium"
                 >
                   {tech}
                 </span>
@@ -135,8 +146,8 @@ export default function TechStack() {
         </Card>
 
         {/* Tools & Platforms */}
-        <Card className="overflow-hidden">
-          <div className="bg-primary/10 py-2 px-4 font-medium">
+        <Card className="overflow-hidden bg-card">
+          <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
             Tools & Platforms
           </div>
           <CardContent className="p-6">
@@ -160,7 +171,7 @@ export default function TechStack() {
               ].map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full bg-secondary px-3 py-1 text-sm font-medium"
+                  className="rounded-full bg-secondary text-secondary-foreground px-3 py-1 text-sm font-medium"
                 >
                   {tech}
                 </span>

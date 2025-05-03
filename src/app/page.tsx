@@ -9,14 +9,14 @@ import { EducationCard } from "@/components/education-card";
 
 export default function Page() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background transition-theme">
       <Navbar />
       <main className="w-full max-w-6xl mx-auto px-4 md:px-6 pt-16">
         <section id="about" className="py-20 md:py-32">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-8 text-center">
               <div className="space-y-4">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-foreground">
                   Full Stack Web Developer
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
@@ -79,7 +79,7 @@ export default function Page() {
 
         <section id="projects" className="py-20 bg-muted/50">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center text-foreground">
               Projects
             </h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -108,9 +108,9 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="py-20">
+        <section className="py-20 bg-background">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center text-foreground">
               Tech Stack
             </h2>
             <TechStack />
@@ -119,7 +119,7 @@ export default function Page() {
 
         <section id="education" className="py-20 bg-muted/50">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center text-foreground">
               Education
             </h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -151,26 +151,24 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="contact" className="py-20 bg-muted/50">
+        <section id="contact" className="py-20 bg-background">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-2xl">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-12 text-center text-foreground">
                 Get in Touch
               </h2>
-              <div className="bg-card rounded-lg border shadow-sm p-8">
-                <ContactForm />
-              </div>
+              <ContactForm />
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t bg-muted/30">
-        <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
+      <footer className="border-t bg-muted/30 py-6 mt-20">
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-6 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Ben.dev. All rights reserved.
           </p>
-          <nav className="sm:ml-auto flex gap-6">
+          <nav className="flex gap-6 mt-4 sm:mt-0">
             <Link
               className="text-sm text-muted-foreground hover:text-foreground hover:underline underline-offset-4"
               href="#"

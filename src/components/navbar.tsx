@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle"; // Use the ThemeToggle you provided
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -9,8 +9,8 @@ import { useState, useEffect } from "react";
 const navItems = [
   { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
-  { name: "Tech Stack", href: "#tech-stack" }, // Fixed to match your ID
-  { name: "Education", href: "#education" }, // Added education section
+  { name: "Tech Stack", href: "#tech-stack" },
+  { name: "Education", href: "#education" },
   { name: "Contact", href: "#contact" },
 ];
 

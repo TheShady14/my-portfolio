@@ -32,6 +32,12 @@
   --radius-lg: 0.5rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
+
+  /* Background patterns - increased opacity for light mode */
+  --grid-color: rgba(0, 0, 0, 0.07);
+  --blob-color-1: rgba(59, 130, 246, 0.25);
+  --blob-color-2: rgba(139, 92, 246, 0.25);
+  --blob-color-3: rgba(99, 102, 241, 0.25);
 }
 
 /* Define dark mode theme variables */
@@ -56,6 +62,12 @@
     --color-border: 240 3.7% 15.9%;
     --color-input: 240 3.7% 15.9%;
     --color-ring: 240 4.9% 83.9%;
+
+    /* Background patterns for dark mode - increased opacity */
+    --grid-color: rgba(255, 255, 255, 0.05);
+    --blob-color-1: rgba(37, 99, 235, 0.15);
+    --blob-color-2: rgba(124, 58, 237, 0.15);
+    --blob-color-3: rgba(79, 70, 229, 0.15);
   }
 }
 
@@ -78,4 +90,66 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
+
+  /* Background grid pattern */
+  .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        var(--grid-color) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  /* Blob animation */
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 25s infinite alternate;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+
+  /* Add smooth image transitions */
+  .image-transition {
+    transition: opacity 0.5s ease-in-out;
+  }
+}
+
+/* Add tech icon filter for dark mode */
+.tech-icon {
+  filter: none;
+}
+
+.dark .tech-icon {
+  filter: invert(1);
+}
+
+/* Ensure background transitions are smooth */
+.bg-transition {
+  transition: background-color 0.5s ease, opacity 0.5s ease;
 }

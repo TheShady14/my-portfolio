@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { IconCloud } from "@/components/magicui/icon-cloud";
-import { useTheme } from "@/components/theme-provider";
 
 const techIcons = [
   "apache-superset",
@@ -49,8 +48,6 @@ const techIcons = [
 
 export default function TechStack() {
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
 
   useEffect(() => {
     setMounted(true);
@@ -58,20 +55,34 @@ export default function TechStack() {
 
   if (!mounted) return null;
 
-  // Determine which icon set to use based on theme
-  const iconFolder = isDarkMode ? "/icons/dark" : "/icons/light";
+  // Create paths for light mode icons (dark SVGs)
+  const lightModeIcons = techIcons.map(
+    (name) => `/icons/light/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
+  );
+
+  // Create paths for dark mode icons (light SVGs)
+  const darkModeIcons = techIcons.map(
+    (name) => `/icons/dark/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
+  );
 
   return (
     <div className="space-y-8">
       {/* IconCloud Section */}
-      <div className="h-[500px] w-full">
+      {/* 
+        You can adjust these parameters to change the appearance:
+        - imageSize: Controls the size of individual icons (default: 60)
+        - radius: Controls how spread out the icons are (default: 300)
+        - initialSpeed: Controls the auto-rotation speed (default: 0.01)
+        - height: Controls the height of the container (default: 500)
+      */}
+      <div className="w-full">
         <IconCloud
-          images={techIcons.map(
-            (name) =>
-              `${iconFolder}/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
-          )}
-          imageSize={40}
-          radius={180}
+          lightModeImages={lightModeIcons}
+          darkModeImages={darkModeIcons}
+          imageSize={50} // Increase for larger icons
+          radius={350} // Increase for more spread out icons
+          initialSpeed={0.01} // Increase for faster rotation
+          height={500} // Adjust the height of the container
         />
       </div>
 

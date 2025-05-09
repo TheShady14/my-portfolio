@@ -45,8 +45,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <span className="font-bold text-xl">
-            <span className="text-primary">Ben</span>
-            <span className="text-foreground">.dev</span>
+            <span className="text-primary">Ben Lombaard Development</span>
           </span>
         </Link>
 
@@ -64,7 +63,7 @@ export default function Navbar() {
           ))}
           <ThemeToggle />
           <Button variant="default" size="sm" className="ml-4 rounded-full">
-            Resume
+            Theme Toggle
           </Button>
         </nav>
 
@@ -102,7 +101,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Button variant="default" size="sm" className="mt-2 w-full">
-              Resume
+              Curriculum Vitae
             </Button>
           </nav>
         </div>

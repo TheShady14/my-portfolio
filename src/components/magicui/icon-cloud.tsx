@@ -3,28 +3,33 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 
 interface IconCloudProps {
-  images: string[];
+  // Accept separate arrays for light and dark mode icons
+  lightModeImages: string[];
+  darkModeImages: string[];
   className?: string;
-  imageSize?: number;
-  radius?: number;
+  imageSize?: number; // Controls the size of individual icons
+  radius?: number; // Controls how spread out the icons are (larger = more spread)
   depth?: number;
   maxSpeed?: number;
-  initialSpeed?: number;
-  dragSpeed?: number;
+  initialSpeed?: number; // Controls the auto-rotation speed
+  dragSpeed?: number; // Controls rotation speed when dragging
+  height?: number; // Controls the height of the container
 }
 
 export function IconCloud({
-  images,
+  lightModeImages,
+  darkModeImages,
   className,
-  imageSize = 60,
-  radius = 300,
+  imageSize = 60, // Adjust this to make individual icons larger or smaller
+  radius = 300, // Adjust this to spread icons further apart or closer together
   depth = 10,
   maxSpeed = 0.05,
-  initialSpeed = 0.01,
+  initialSpeed = 0.01, // Increase for faster auto-rotation
   dragSpeed = 0.5,
+  height = 500, // Controls the height of the container in pixels
 }: IconCloudProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -36,27 +41,125 @@ export function IconCloud({
   const activeRef = useRef<boolean>(false);
   const frameIdRef = useRef<number | null>(null);
   const spritesRef = useRef<THREE.Sprite[]>([]);
+  const texturesRef = useRef<THREE.Texture[]>([]);
 
   const [loaded, setLoaded] = useState(false);
   const { theme } = useTheme();
 
-  // Function to update sprite colors based on theme
-  const updateSpriteColors = () => {
-    if (!spritesRef.current) return;
+  // Determine which set of images to use based on theme
+  const images = theme === "dark" ? darkModeImages : lightModeImages;
 
-    const color = theme === "dark" ? 0xffffff : 0x000000;
+  // Effect to recreate the sphere when theme changes
+  useEffect(() => {
+    if (!loaded) return;
 
-    spritesRef.current.forEach((sprite) => {
-      if (sprite.material instanceof THREE.SpriteMaterial) {
-        sprite.material.color.set(color);
+    // Clean up existing sprites
+    if (sphereRef.current) {
+      while (sphereRef.current.children.length > 0) {
+        const object = sphereRef.current.children[0];
+        sphereRef.current.remove(object);
       }
+      spritesRef.current = [];
+    }
+
+    // Dispose existing textures
+    texturesRef.current.forEach((texture) => {
+      texture.dispose();
+    });
+    texturesRef.current = [];
+
+    // Reload with new theme
+    if (containerRef.current && sphereRef.current) {
+      loadSprites(images, sphereRef.current);
+    }
+  }, [theme, loaded, images]);
+
+  // Function to load sprites
+  const loadSprites = (imageUrls: string[], sphere: THREE.Group) => {
+    const textureLoader = new THREE.TextureLoader();
+    let loadedCount = 0;
+    const totalImages = imageUrls.length;
+    const textures: THREE.Texture[] = [];
+    const sprites: THREE.Sprite[] = [];
+
+    // Create a default texture for fallback
+    const canvas = document.createElement("canvas");
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, 64, 64);
+      ctx.fillStyle = "#000000";
+      ctx.font = "48px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("?", 32, 32);
+    }
+    const fallbackTexture = new THREE.CanvasTexture(canvas);
+
+    // Function to create a sprite
+    const createSprite = (index: number, texture: THREE.Texture) => {
+      const material = new THREE.SpriteMaterial({
+        map: texture,
+      });
+      const sprite = new THREE.Sprite(material);
+
+      // Calculate position on sphere
+      const phi = Math.acos(-1 + (2 * index) / totalImages);
+      const theta = Math.sqrt(totalImages * Math.PI) * phi;
+
+      const x = radius * Math.cos(theta) * Math.sin(phi);
+      const y = radius * Math.sin(theta) * Math.sin(phi);
+      const z = radius * Math.cos(phi);
+
+      sprite.position.set(x, y, z);
+      sprite.scale.set(imageSize, imageSize, 1);
+
+      sphere.add(sprite);
+      sprites.push(sprite);
+    };
+
+    imageUrls.forEach((url, index) => {
+      // Check if the URL is valid
+      if (!url) {
+        console.warn(`Invalid URL at index ${index}`);
+        createSprite(index, fallbackTexture);
+        loadedCount++;
+        if (loadedCount === totalImages) {
+          texturesRef.current = textures;
+          spritesRef.current = sprites;
+        }
+        return;
+      }
+
+      textureLoader.load(
+        url,
+        (texture) => {
+          textures.push(texture);
+          createSprite(index, texture);
+
+          loadedCount++;
+          if (loadedCount === totalImages) {
+            texturesRef.current = textures;
+            spritesRef.current = sprites;
+          }
+        },
+        undefined,
+        (error) => {
+          console.error(`Error loading texture for ${url}:`, error);
+          // Use fallback texture instead
+          createSprite(index, fallbackTexture);
+
+          loadedCount++;
+          if (loadedCount === totalImages) {
+            texturesRef.current = textures;
+            spritesRef.current = sprites;
+          }
+        }
+      );
     });
   };
-
-  // Effect to handle theme changes
-  useEffect(() => {
-    updateSpriteColors();
-  }, [theme]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -70,9 +173,9 @@ export function IconCloud({
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.z = 400;
+    // Camera - Adjust position to be less zoomed in
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 2000);
+    camera.position.z = 800; // Increase this value to zoom out more
     cameraRef.current = camera;
 
     // Renderer
@@ -87,56 +190,9 @@ export function IconCloud({
     sphereRef.current = sphere;
     scene.add(sphere);
 
-    // Default color based on theme
-    const initialColor = theme === "dark" ? 0xffffff : 0x000000;
-
-    // Store all sprites for later theme updates
-    const sprites: THREE.Sprite[] = [];
-    spritesRef.current = sprites;
-
-    // Load textures and create sprites
-    const textureLoader = new THREE.TextureLoader();
-    let loadedCount = 0;
-
-    images.forEach((url, index) => {
-      textureLoader.load(
-        url,
-        (texture) => {
-          const material = new THREE.SpriteMaterial({
-            map: texture,
-            color: initialColor,
-          });
-          const sprite = new THREE.Sprite(material);
-
-          // Calculate position on sphere
-          const phi = Math.acos(-1 + (2 * index) / images.length);
-          const theta = Math.sqrt(images.length * Math.PI) * phi;
-
-          const x = radius * Math.cos(theta) * Math.sin(phi);
-          const y = radius * Math.sin(theta) * Math.sin(phi);
-          const z = radius * Math.cos(phi);
-
-          sprite.position.set(x, y, z);
-          sprite.scale.set(imageSize, imageSize, 1);
-
-          sphere.add(sprite);
-          sprites.push(sprite);
-
-          loadedCount++;
-          if (loadedCount === images.length) {
-            setLoaded(true);
-          }
-        },
-        undefined,
-        (error) => {
-          console.error("Error loading texture", error);
-          loadedCount++;
-          if (loadedCount === images.length) {
-            setLoaded(true);
-          }
-        }
-      );
-    });
+    // Load initial sprites
+    loadSprites(images, sphere);
+    setLoaded(true);
 
     // Mouse events
     const handleMouseMove = (event: MouseEvent) => {
@@ -227,16 +283,22 @@ export function IconCloud({
         container.removeChild(rendererRef.current.domElement);
         rendererRef.current.dispose();
       }
+
+      // Dispose textures
+      texturesRef.current.forEach((texture) => {
+        texture.dispose();
+      });
     };
-  }, [images, imageSize, radius, depth, maxSpeed, initialSpeed, dragSpeed]);
+  }, [imageSize, radius, depth, maxSpeed, initialSpeed, dragSpeed]);
 
   return (
     <div
       ref={containerRef}
       className={cn(
-        "h-[400px] w-full cursor-grab active:cursor-grabbing",
+        `h-[${height}px] w-full cursor-grab active:cursor-grabbing`,
         className
       )}
+      style={{ height: `${height}px` }} // Explicit height setting
     />
   );
 }

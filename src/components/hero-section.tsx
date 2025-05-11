@@ -62,17 +62,24 @@ export default function HeroSection() {
 
       {/* Content container - centered in viewport */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 md:px-6">
-        {/* Elegant card */}
-        <div className="w-full max-w-xl mx-auto bg-card/85 shadow-xl rounded-lg p-8 backdrop-blur-none border border-primary/10">
+        {/* Elegant card with theme-based background */}
+        <div
+          className={`w-full max-w-xl mx-auto shadow-xl rounded-lg p-8 backdrop-blur-sm border border-primary/10 transition-colors duration-300 ${
+            mounted && theme === "dark"
+              ? "bg-black/85 text-white"
+              : "bg-white/85 text-black"
+          }`}
+        >
           <div className="flex flex-col items-center justify-center space-y-6 text-center">
             <div className="space-y-3">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground whitespace-nowrap">
-                TypeScript Development
+                React Development
               </h1>
               <p className="mx-auto max-w-md text-sm md:text-base text-muted-foreground">
-                Crafting elegant digital experiences with modern TypeScript and
-                React. Delivering clean, type-safe solutions to complex
-                technical challenges.
+                Designing elegant, intuitive frontends and mobile experiences
+                with TypeScript, React, and React Native. I bring clean
+                architecture, type-safe code, and thoughtful design together to
+                turn complex problems into seamless digital solutions.
               </p>
             </div>
             <div className="flex space-x-6 pt-2">

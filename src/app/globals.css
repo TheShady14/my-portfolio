@@ -138,6 +138,52 @@
   .image-transition {
     transition: opacity 0.5s ease-in-out;
   }
+
+  /* Section transitions and animations */
+  .section-transition {
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Smooth scrolling for the entire page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Link underline animation */
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: hsl(var(--color-primary));
+    transition: width 0.3s ease-in-out;
+    transform-origin: left;
+  }
+
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Enhanced navbar transitions */
+  .navbar-transition {
+    transition: height 0.5s ease, background-color 0.5s ease,
+      box-shadow 0.5s ease, padding 0.5s ease;
+  }
+
+  .logo-transition {
+    transition: width 0.5s ease, height 0.5s ease;
+  }
+
+  /* Add smooth transitions for section scrolling */
+  .scroll-mt-20 {
+    scroll-margin-top: 5rem;
+  }
 }
 
 /* Add tech icon filter for dark mode */

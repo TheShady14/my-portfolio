@@ -1,19 +1,23 @@
 "use client";
 
+import type React from "react";
+
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Download, Eye } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Menu,
+  X,
+  ChevronDown,
+  Download,
+  Eye,
+  DoorClosedIcon as CloseIcon,
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import "../styles/navbar.css";
 
+// Navigation items
 const navItems = [
   { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
@@ -23,166 +27,242 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCvDropdownOpen, setIsCvDropdownOpen] = useState(false);
+  const [isPdfViewerOpen, setIsPdfViewerOpen] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState("");
   const { theme } = useTheme();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle scroll effect for navbar
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
+      const isScrolled = window.scrollY > 20;
       if (isScrolled !== scrolled) {
         setScrolled(isScrolled);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
 
+  // Handle click outside dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsCvDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Smooth scroll function
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+
+    if (href.startsWith("#")) {
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Get navbar height for offset
+        const navbarHeight =
+          document.querySelector(".navbar")?.clientHeight || 0;
+
+        // Calculate position
+        const targetPosition =
+          targetElement.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = targetPosition - navbarHeight - 20;
+
+        // Scroll
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+
+        // Close mobile menu if open
+        setIsMenuOpen(false);
+      }
+    }
+  };
+
+  // Open PDF viewer
+  const openPdfViewer = (url: string) => {
+    setPdfUrl(url);
+    setIsPdfViewerOpen(true);
+    setIsCvDropdownOpen(false);
+  };
+
   return (
-    <header
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur border-b shadow-sm supports-[backdrop-filter]:bg-background/60"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <div className="relative h-10 w-[150px]">
-            {/* Use different logos based on theme */}
-            <Image
-              src="/images/logo-dark.png"
-              alt="Ben Lombaard Development Logo"
-              fill
-              className="object-contain dark:hidden"
-              priority
-            />
-            <Image
-              src="/images/logo-light.png"
-              alt="Ben Lombaard Development Logo"
-              fill
-              className="object-contain hidden dark:block"
-              priority
-            />
-          </div>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium transition-colors hover:text-primary relative group px-1"
+    <>
+      <header
+        className={`navbar ${
+          scrolled ? "navbar-scrolled" : "navbar-transparent"
+        }`}
+      >
+        <div className="navbar-container">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <div
+              className={`logo-container ${
+                scrolled ? "logo-expanded" : "logo-default"
+              }`}
             >
-              {item.name}
-              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          ))}
+              <Image
+                src="/images/logo-light.svg"
+                alt="Ben Lombaard Development Logo"
+                fill
+                className="object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/images/logo-dark.svg"
+                alt="Ben Lombaard Development Logo"
+                fill
+                className="object-contain hidden dark:block"
+                priority
+              />
+            </div>
+          </Link>
 
-          {/* Theme Toggle */}
-          <ThemeToggle />
-
-          {/* CV Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="default"
-                size="sm"
-                className="rounded-md flex items-center gap-1"
-              >
-                Curriculum Vitae <ChevronDown className="h-4 w-4 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => window.open("/pdf/cv.pdf", "_blank")}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                <span>Download</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => window.open("/preview-cv", "_blank")}
-              >
-                <Eye className="h-4 w-4 mr-2" />
-                <span>Preview</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </nav>
-
-        {/* Mobile Navigation Toggle */}
-        <div className="flex items-center md:hidden gap-4">
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-1"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-background border-b">
-          <nav className="container flex flex-col space-y-4 py-6 px-4">
+          {/* Desktop Navigation */}
+          <div className="navbar-right hidden md:flex">
+            {/* Nav Links */}
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium py-2 transition-colors hover:text-primary"
-                onClick={() => setIsMenuOpen(false)}
+                className="nav-link text-foreground hover:text-primary"
+                onClick={(e) => handleSmoothScroll(e, item.href)}
               >
                 {item.name}
               </Link>
             ))}
 
-            {/* Mobile CV Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="w-full flex items-center justify-center gap-1"
-                >
-                  Curriculum Vitae <ChevronDown className="h-4 w-4 ml-1" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => window.open("/path-to-your-cv.pdf", "_blank")}
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  <span>Download</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={() => window.open("/preview-cv", "_blank")}
-                >
-                  <Eye className="h-4 w-4 mr-2" />
-                  <span>Preview</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </nav>
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
+            {/* CV Dropdown */}
+            <div className="dropdown-menu" ref={dropdownRef}>
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                onClick={() => setIsCvDropdownOpen(!isCvDropdownOpen)}
+              >
+                Curriculum Vitae
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    isCvDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isCvDropdownOpen && (
+                <div className="dropdown-content absolute right-0 mt-2 w-56 bg-background border rounded-md shadow-lg">
+                  <button
+                    className="dropdown-item w-full text-left"
+                    onClick={() => window.open("/pdf/cv.pdf", "_blank")}
+                  >
+                    <Download className="dropdown-icon h-5 w-5" />
+                    <span>Download CV</span>
+                  </button>
+                  <button
+                    className="dropdown-item w-full text-left"
+                    onClick={() => openPdfViewer("/pdf/cv.pdf")}
+                  >
+                    <Eye className="dropdown-icon h-5 w-5" />
+                    <span>Preview CV</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <ThemeToggle />
+            <button
+              className="ml-4 p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6 menu-icon open" />
+              ) : (
+                <Menu className="h-6 w-6 menu-icon" />
+              )}
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Navigation Menu */}
+        <div className={`mobile-menu ${isMenuOpen ? "active" : ""}`}>
+          <div className="container mx-auto px-4 py-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="mobile-nav-link"
+                onClick={(e) => handleSmoothScroll(e, item.href)}
+              >
+                {item.name}
+              </Link>
+            ))}
+
+            {/* Mobile CV Options */}
+            <div className="p-4 space-y-2">
+              <button
+                className="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground"
+                onClick={() => window.open("/pdf/cv.pdf", "_blank")}
+              >
+                <Download className="h-5 w-5" />
+                <span>Download CV</span>
+              </button>
+              <button
+                className="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-secondary text-secondary-foreground"
+                onClick={() => openPdfViewer("/pdf/cv.pdf")}
+              >
+                <Eye className="h-5 w-5" />
+                <span>Preview CV</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* PDF Viewer Modal */}
+      <div
+        className={`pdf-viewer-container ${isPdfViewerOpen ? "active" : ""}`}
+      >
+        <div className="pdf-viewer-header">
+          <h3 className="font-medium">Curriculum Vitae</h3>
+          <button
+            className="close-button"
+            onClick={() => setIsPdfViewerOpen(false)}
+            aria-label="Close PDF viewer"
+          >
+            <CloseIcon className="h-6 w-6" />
+          </button>
+        </div>
+        <div className="pdf-viewer-content">
+          {isPdfViewerOpen && (
+            <iframe
+              src={pdfUrl}
+              className="pdf-viewer-iframe"
+              title="PDF Viewer"
+            />
+          )}
+        </div>
+      </div>
+    </>
   );
 }

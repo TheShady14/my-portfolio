@@ -31,7 +31,10 @@ export default function RootLayout({
           type="image/svg+xml"
         />
       </head>
-      <body className="transition-theme" suppressHydrationWarning>
+      <body
+        className="transition-theme section-transition"
+        suppressHydrationWarning
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>

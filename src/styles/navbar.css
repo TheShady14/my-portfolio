@@ -1,0 +1,252 @@
+/* Navbar container styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  transition: all 0.4s ease;
+  height: 64px; /* Initial height */
+}
+
+.navbar-transparent {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.navbar-scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8); /* Black bottom border */
+  height: 70px; /* 10% increase in height */
+}
+
+.dark .navbar-scrolled {
+  background-color: rgba(20, 20, 20, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Container for navbar content */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 1rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  transition: all 0.4s ease;
+}
+
+/* Logo styles */
+.logo-container {
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 0; /* Position logo at far left */
+}
+
+.logo-default {
+  height: 50px;
+  width: 200px;
+}
+
+.logo-expanded {
+  height: 55px; /* Proportional to navbar height increase */
+  width: 220px;
+}
+
+/* Navigation link styles */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+  transform-origin: left;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  position: relative;
+}
+
+.dropdown-content {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-icon {
+  margin-right: 0.75rem;
+  color: var(--primary-color);
+}
+
+/* PDF Viewer styles */
+.pdf-viewer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.pdf-viewer-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pdf-viewer-header {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.dark .pdf-viewer-header {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.pdf-viewer-content {
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  background-color: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.pdf-viewer-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .close-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile menu styles */
+.mobile-menu {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 40;
+}
+
+.dark .mobile-menu {
+  background-color: #1e1e1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 1rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.dark .mobile-nav-link {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.dark .mobile-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Animation for mobile menu toggle */
+.menu-icon {
+  transition: transform 0.3s ease;
+}
+
+.menu-icon.open {
+  transform: rotate(90deg);
+}
+
+/* Navbar right section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}

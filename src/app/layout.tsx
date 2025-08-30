@@ -1,7 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
-
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,13 +29,26 @@ export default function RootLayout({
           as="image"
           type="image/svg+xml"
         />
+        {/* Preload logo images for footer */}
+        <link
+          rel="preload"
+          href="/images/logo-light.svg"
+          as="image"
+          type="image/svg+xml"
+        />
+        <link
+          rel="preload"
+          href="/images/logo-dark.svg"
+          as="image"
+          type="image/svg+xml"
+        />
       </head>
       <body
-        className="transition-theme section-transition"
+        className="transition-theme section-transition overflow-x-hidden"
         suppressHydrationWarning
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <div className="min-h-screen flex flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>

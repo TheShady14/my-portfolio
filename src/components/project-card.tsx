@@ -20,7 +20,7 @@ export default function ProjectCard({
   tags,
 }: ProjectCardProps) {
   return (
-    <Card className="overflow-hidden group transition-all duration-300 hover:shadow-lg border bg-card">
+    <Card className="overflow-hidden group transition-all duration-300 hover:shadow-lg border border-border bg-card/95 backdrop-blur-sm">
       <div className="relative aspect-video overflow-hidden bg-muted">
         <img
           src={image || "/placeholder.svg"}
@@ -41,16 +41,16 @@ export default function ProjectCard({
           </div>
         </div>
       </div>
-      <CardContent className="p-6">
-        <h3 className="text-xl font-bold mb-2 text-foreground">{title}</h3>
+      <CardContent className="p-6 bg-card/95">
+        <h3 className="text-xl font-bold mb-2 text-card-foreground">{title}</h3>
         <p className="text-muted-foreground">{description}</p>
       </CardContent>
-      <CardFooter className="px-6 pb-6 pt-0">
+      <CardFooter className="px-6 pb-6 pt-0 bg-card/95">
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full"
+              className="bg-muted text-muted-foreground text-xs px-3 py-1 rounded-full"
             >
               {tag}
             </span>

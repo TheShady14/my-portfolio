@@ -48,9 +48,25 @@ const techIcons = [
 
 export default function TechStack() {
   const [mounted, setMounted] = useState(false);
+  const [screenSize, setScreenSize] = useState("desktop");
 
   useEffect(() => {
     setMounted(true);
+
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setScreenSize("mobile");
+      } else if (width < 768) {
+        setScreenSize("tablet");
+      } else {
+        setScreenSize("desktop");
+      }
+    };
+
+    handleResize(); // Set initial size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   if (!mounted) return null;
@@ -65,31 +81,50 @@ export default function TechStack() {
     (name) => `/icons/dark/${name.toLowerCase().replace(/\s+/g, "-")}.svg`
   );
 
+  // Responsive parameters based on screen size
+  const getCloudParams = () => {
+    switch (screenSize) {
+      case "mobile":
+        return {
+          imageSize: 50,
+          radius: 220,
+          height: 400,
+        };
+      case "tablet":
+        return {
+          imageSize: 40,
+          radius: 250,
+          height: 400,
+        };
+      default:
+        return {
+          imageSize: 50,
+          radius: 350,
+          height: 500,
+        };
+    }
+  };
+
+  const cloudParams = getCloudParams();
+
   return (
     <div className="space-y-8">
       {/* IconCloud Section */}
-      {/* 
-        You can adjust these parameters to change the appearance:
-        - imageSize: Controls the size of individual icons (default: 60)
-        - radius: Controls how spread out the icons are (default: 300)
-        - initialSpeed: Controls the auto-rotation speed (default: 0.01)
-        - height: Controls the height of the container (default: 500)
-      */}
-      <div className="w-full">
+      <div className="w-full px-4 sm:px-0">
         <IconCloud
           lightModeImages={lightModeIcons}
           darkModeImages={darkModeIcons}
-          imageSize={50} // Increase for larger icons
-          radius={350} // Increase for more spread out icons
-          initialSpeed={0.01} // Increase for faster rotation
-          height={500} // Adjust the height of the container
+          imageSize={cloudParams.imageSize}
+          radius={cloudParams.radius}
+          initialSpeed={0.01}
+          height={cloudParams.height}
         />
       </div>
 
       {/* Tech Categories */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Frontend */}
-        <Card className="overflow-hidden bg-card">
+        <Card className="overflow-hidden bg-card/95 backdrop-blur-sm">
           <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
             Frontend
           </div>
@@ -128,7 +163,7 @@ export default function TechStack() {
         </Card>
 
         {/* Backend */}
-        <Card className="overflow-hidden bg-card">
+        <Card className="overflow-hidden bg-card/95 backdrop-blur-sm">
           <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
             Backend
           </div>
@@ -157,7 +192,7 @@ export default function TechStack() {
         </Card>
 
         {/* Tools & Platforms */}
-        <Card className="overflow-hidden bg-card">
+        <Card className="overflow-hidden bg-card/95 backdrop-blur-sm">
           <div className="bg-primary/10 py-2 px-4 font-medium text-foreground">
             Tools & Platforms
           </div>

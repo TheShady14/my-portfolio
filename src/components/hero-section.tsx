@@ -28,7 +28,7 @@ export default function HeroSection() {
 
   return (
     <section
-      id="about"
+      id="hero"
       className="relative h-screen flex items-center justify-center overflow-hidden"
       style={{
         backgroundColor: "var(--background-color, white)",
@@ -71,6 +71,20 @@ export default function HeroSection() {
           }`}
         >
           <div className="flex flex-col items-center justify-center space-y-6 text-center">
+            <div className="relative">
+              <div
+                className={`w-32 h-32 rounded-full overflow-hidden border-4 transition-colors duration-300 ${
+                  mounted && theme === "dark" ? "border-white" : "border-black"
+                }`}
+              >
+                <img
+                  src="/images/ben-lombaard.JPG"
+                  alt="Ben Lombaard - Professional Photo"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
             <div className="space-y-3">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground whitespace-nowrap">
                 React Development
@@ -126,7 +140,7 @@ function SocialButton({
       <Button
         variant="outline"
         size="icon"
-        className="rounded-full border-2 transition-all duration-300 hover:scale-110 hover:bg-primary hover:text-primary-foreground group relative overflow-hidden"
+        className="rounded-full border-2 transition-all duration-300 hover:scale-110 hover:bg-primary hover:text-primary-foreground group relative overflow-hidden bg-transparent"
       >
         <span className="absolute inset-0 w-full h-full bg-primary/0 group-hover:bg-primary/100 transition-all duration-300 rounded-full transform scale-0 group-hover:scale-100"></span>
         <span className="relative z-10">{icon}</span>

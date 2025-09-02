@@ -14,7 +14,7 @@ const navItems = [
   { name: "Contact", href: "#contact" },
 ];
 
-type MobileNavProps = {};
+type MobileNavProps = object;
 
 export default function MobileNav({}: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -174,8 +174,6 @@ export default function MobileNav({}: MobileNavProps) {
             marginTop: "22px", // move up or down
           }}
         >
-          {console.log("Mobile dropdown is rendering")}
-
           {/* Header */}
           <div className="px-4 py-3 border-b border-border/50 bg-muted/30">
             <div className="flex items-center justify-between">

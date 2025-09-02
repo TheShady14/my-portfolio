@@ -3,20 +3,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Github, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 
-// Mock Slide component for demo
-const Slide = ({ id, bg, children }) => (
-  <div
-    id={id}
-    className={`min-h-screen py-8 md:py-16 ${
-      bg === "background" ? "bg-background" : ""
-    }`}
-  >
-    {children}
-  </div>
-);
+// Add proper TypeScript interface for the Iphone15Pro props
+interface Iphone15ProProps {
+  width: string;
+  height: string;
+  src?: string;
+  className?: string;
+}
 
-// Mock iPhone component that displays full content
-const Iphone15Pro = ({ width, height, src, className }) => (
+const Iphone15Pro = ({ width, height, src, className }: Iphone15ProProps) => (
   <div className={`relative ${className}`} style={{ width, height }}>
     {/* iPhone frame */}
     <div className="w-full h-full bg-black rounded-[2rem] md:rounded-[3rem] p-1.5 md:p-2 shadow-2xl">
@@ -25,15 +20,15 @@ const Iphone15Pro = ({ width, height, src, className }) => (
         {/* Notch */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 md:w-32 h-4 md:h-6 bg-black rounded-b-xl md:rounded-b-2xl z-10"></div>
 
-        {/* Screenshot container - ensures full image display */}
+        {/* Screenshot container  */}
         <div className="w-full h-full flex items-center justify-center bg-gray-50">
           <img
-            src={src}
+            src={src || "/placeholder.svg"}
             alt="App screenshot"
             className="w-full h-full object-contain"
             onError={(e) => {
               e.currentTarget.src =
-                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400' viewBox='0 0 200 400'%3E%3Crect width='200' height='400' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='0.3em' font-family='Arial, sans-serif' font-size='16' fill='%236b7280'%3EApp Screenshot%3C/text%3E%3C/svg%3E";
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400' viewBox='0 0 200 400'%3E%3Crect width='200' height='400' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' textAnchor='middle' dy='0.3em' fontFamily='Arial, sans-serif' fontSize='16' fill='%236b7280'%3EApp Screenshot%3C/text%3E%3C/svg%3E";
             }}
           />
         </div>
@@ -71,7 +66,7 @@ export default function IOSAppsSlide() {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      {/* Mobile-first layout: Stack vertically on mobile, side by side on desktop */}
+      {/* Stack vertically on mobile, side by side on desktop */}
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         {/* iPhone display section */}
         <div className="w-full flex justify-center relative order-1 lg:order-1">
@@ -110,7 +105,7 @@ export default function IOSAppsSlide() {
               />
             </div>
 
-            {/* App indicator dots - only show when multiple apps exist */}
+            {/* App indicator dots */}
             {apps.length > 1 && (
               <div className="flex justify-center mt-4 md:mt-6 space-x-2">
                 {apps.map((_, index) => (
@@ -130,12 +125,11 @@ export default function IOSAppsSlide() {
           </div>
         </div>
 
-        {/* App details section - better mobile spacing */}
+        {/* App details section */}
         <div className="w-full space-y-4 md:space-y-6 order-2 lg:order-2">
-          {/* App logo and name - responsive sizing */}
+          {/* responsive sizing */}
           <div className="flex items-center space-x-3 md:space-x-4">
             <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg border border-gray-200">
-              {/* Styled "S" logo - responsive font size */}
               <span
                 className="font-bold text-2xl md:text-4xl"
                 style={{
@@ -187,7 +181,7 @@ export default function IOSAppsSlide() {
             </Button>
           </div>
 
-          {/* Mobile navigation arrows - show only on mobile when multiple apps */}
+          {/* show only on mobile when multiple apps */}
           {apps.length > 1 && (
             <div className="flex justify-center lg:hidden gap-4 pt-4">
               <button
@@ -209,7 +203,7 @@ export default function IOSAppsSlide() {
         </div>
       </div>
 
-      {/* Additional info section - better mobile spacing */}
+      {/* info section - better mobile spacing */}
       <div className="mt-8 md:mt-12 text-center">
         <p className="text-xs md:text-sm text-muted-foreground max-w-2xl mx-auto px-4">
           This application showcases modern iOS development practices with focus

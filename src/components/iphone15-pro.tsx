@@ -1,3 +1,5 @@
+"use client";
+
 import type { SVGProps } from "react";
 
 // iPhone 15 Pro component from MagicUI for displaying iOS apps

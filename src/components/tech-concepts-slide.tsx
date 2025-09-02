@@ -21,7 +21,11 @@ export default function TechConceptsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  const nextElement = e.currentTarget
+                    .nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = "flex";
+                  }
                 }}
               />
               <span className="text-gray-500 hidden">
@@ -56,7 +60,11 @@ export default function TechConceptsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  const nextElement = e.currentTarget
+                    .nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = "flex";
+                  }
                 }}
               />
               <span className="text-gray-500 hidden">JWT Auth Image</span>
@@ -88,7 +96,11 @@ export default function TechConceptsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  const nextElement = e.currentTarget
+                    .nextElementSibling as HTMLElement;
+                  if (nextElement) {
+                    nextElement.style.display = "flex";
+                  }
                 }}
               />
               <span className="text-gray-500 hidden">Redux Project Image</span>

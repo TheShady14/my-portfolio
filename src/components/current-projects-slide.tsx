@@ -21,7 +21,8 @@ export default function CurrentProjectsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  (e.currentTarget
+                    .nextElementSibling as HTMLElement)!.style.display = "flex";
                 }}
               />
               <span className="text-gray-500 hidden">
@@ -54,7 +55,8 @@ export default function CurrentProjectsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  (e.currentTarget
+                    .nextElementSibling as HTMLElement)!.style.display = "flex";
                 }}
               />
               <span className="text-gray-500 hidden">
@@ -87,7 +89,8 @@ export default function CurrentProjectsSlide() {
                 className="w-full h-full object-cover rounded"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
-                  e.currentTarget.nextElementSibling!.style.display = "flex";
+                  (e.currentTarget
+                    .nextElementSibling as HTMLElement)!.style.display = "flex";
                 }}
               />
               <span className="text-gray-500 hidden">M2 Project Image</span>

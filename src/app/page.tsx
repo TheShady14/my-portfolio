@@ -1,6 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 import Navbar from "@/components/navbar";
 import ContactForm from "./components/contact-form";
 import ProjectCard from "@/components/project-card";
@@ -14,13 +12,6 @@ import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pa
 import FigmaSlide from "@/components/figma-slide";
 
 export default function Page() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <>
       <div className="fixed inset-0 w-screen h-screen z-0">
@@ -36,7 +27,7 @@ export default function Page() {
       <div className="min-h-screen flex flex-col bg-background transition-theme relative z-10">
         <Navbar />
 
-        {/* Snap scrolling container - only for slides */}
+        {/* Snap scrolling container  */}
         <main
           className="w-full pt-16 snap-y snap-mandatory overflow-y-auto"
           style={{ height: "calc(100vh - 4rem)" }}
@@ -212,7 +203,7 @@ export default function Page() {
             </div>
           </Slide>
 
-          {/* Contact Slide - LAST snap section */}
+          {/* Contact Slide */}
           <Slide id="contact" bg="background">
             <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
               <div className="mx-auto max-w-2xl">
@@ -225,7 +216,7 @@ export default function Page() {
           </Slide>
         </main>
 
-        {/* Footer Section - OUTSIDE of snap container for normal scrolling */}
+        {/* Footer Section */}
         <FlickeringFooter />
       </div>
     </>

@@ -5,16 +5,12 @@ import type React from "react";
 import { useEffect, useRef } from "react";
 
 interface DotPatternProps extends React.HTMLAttributes<HTMLDivElement> {
-  width?: number;
-  height?: number;
   gap?: number;
   dotSize?: number;
   dotColor?: string;
 }
 
 export function DotPattern({
-  width = 20,
-  height = 20,
   gap = 30,
   dotSize = 2,
   dotColor = "currentColor",

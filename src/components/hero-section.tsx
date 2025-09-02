@@ -62,7 +62,7 @@ export default function HeroSection() {
 
       {/* Content container - centered in viewport */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 md:px-6">
-        {/* Elegant card with theme-based background */}
+        {/* card with theme-based background */}
         <div
           className={`w-full max-w-xl mx-auto shadow-xl rounded-lg p-8 backdrop-blur-sm border border-primary/10 transition-colors duration-300 ${
             mounted && theme === "dark"
@@ -125,7 +125,7 @@ export default function HeroSection() {
   );
 }
 
-// Extracted social button component with animations
+// social button component with animations
 function SocialButton({
   href,
   icon,

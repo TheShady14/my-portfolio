@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ChevronDown, Download, Eye } from "lucide-react";
-import { useTheme } from "next-themes";
 import MobileNav from "@/components/mobile-nav"; // Import the separate mobile component
 import "../styles/navbar.css";
 
@@ -21,7 +20,6 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isCvDropdownOpen, setIsCvDropdownOpen] = useState(false);
-  const { theme } = useTheme();
   const desktopDropdownRef = useRef<HTMLDivElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
 

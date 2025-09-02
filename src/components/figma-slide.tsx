@@ -21,7 +21,8 @@ export default function FigmaSlide() {
               className="w-full rounded-lg shadow-md"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
-                e.currentTarget.nextElementSibling!.style.display = "flex";
+                (e.currentTarget
+                  .nextElementSibling as HTMLElement)!.style.display = "flex";
               }}
             />
             <div className="hidden w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-lg items-center justify-center">

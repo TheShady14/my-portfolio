@@ -57,7 +57,7 @@ export default function IconTest() {
         try {
           const response = await fetch(path, { method: "HEAD" });
           status[icon] = response.ok;
-        } catch (e) {
+        } catch {
           status[icon] = false;
         }
       }

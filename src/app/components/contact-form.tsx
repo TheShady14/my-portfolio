@@ -48,7 +48,7 @@ export default function ContactForm() {
         subject: "",
         message: "",
       });
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -65,10 +65,10 @@ export default function ContactForm() {
           </div>
         </div>
         <h3 className="text-2xl font-bold text-foreground">
-          Let's Work Together
+          Let&apos;s Work Together
         </h3>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Ready to bring your ideas to life? I'd love to hear about your
+          Ready to bring your ideas to life? I&apos;d love to hear about your
           project.
         </p>
       </div>
@@ -231,8 +231,8 @@ export default function ContactForm() {
               {submitStatus === "success" && (
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                   <p className="text-green-800 dark:text-green-200 text-sm font-medium">
-                    ✓ Thank you! Your message has been sent successfully. I'll
-                    get back to you soon.
+                    ✓ Thank you! Your message has been sent successfully.
+                    I&apos;ll get back to you soon.
                   </p>
                 </div>
               )}

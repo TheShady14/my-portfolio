@@ -11,7 +11,7 @@ import Slide from "@/components/slide";
 import IOSAppsSlide from "@/components/ios-apps-slide";
 import FlickeringFooter from "@/components/flickering-footer";
 import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
-import FigmaSlide from "@/components/figma-slide"; // Import FigmaSlide component
+import FigmaSlide from "@/components/figma-slide";
 
 export default function Page() {
   const { theme } = useTheme();
@@ -121,25 +121,25 @@ export default function Page() {
                   title="Appointment Engine"
                   description="A comprehensive full-stack appointment booking service and
               business managment toolkit, aimied to change the way businesses
-              manage their Businesses from Internal Operations, Administration,
-              Invoicing and Customer Engagement in South Africa"
+              manage their businesses from Internal Operations, Administration,
+              Invoicing, Accounting, CRM and Automation in South Africa"
                   image="/images/AppointmentEngine.png"
                   link="YOUR_APPOINTMENT_ENGINE_LINK"
-                  tags={["Full-Stack", "Real-time", "Scheduling"]}
+                  tags={["Full-Stack", "API Integrations", "Data Analytics"]}
                 />
                 <ProjectCard
                   title="Giveaway Portal"
-                  description="Interactive platform for managing contests and giveaways with user engagement features."
+                  description="Interactive platform for managing contests and giveaways with custom user engagement features."
                   image="/images/giveaway-portal.png"
                   link="https://teddybearfoundationgiveaway.com/"
                   tags={["React", "Contest Management", "User Engagement"]}
                 />
                 <ProjectCard
                   title="M2"
-                  description="Advanced project management system with collaborative features and analytics dashboard."
+                  description="A custom CSS frontend sales site for Mediametrics, built with TypeScript and adapted from Figma."
                   image="/images/m2.png"
                   link="https://github.com/TheShady14/M2.git"
-                  tags={["Project Management", "Analytics", "Collaboration"]}
+                  tags={["Typscript", "CSS", "Custom Design"]}
                 />
               </div>
             </div>

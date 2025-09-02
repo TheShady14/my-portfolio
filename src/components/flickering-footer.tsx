@@ -136,7 +136,22 @@ export default function FlickeringFooter() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             {/* Left side - Logo and Bio */}
             <div className="space-y-6">
-              {/* Flickering logo */}
+              {/* Logo positioning and sizing controls:
+                  
+                  POSITIONING:
+                  - Move UP: add "mt-[-Xpx]" (negative margin top) or reduce space-y-6 value
+                  - Move DOWN: add "mt-[Xpx]" (positive margin top) or increase space-y-6 value
+                  - Move LEFT: add "ml-[-Xpx]" (negative margin left) or use "justify-start" on parent
+                  - Move RIGHT: add "ml-[Xpx]" (positive margin right) or use "justify-end" on parent
+                  
+                  SIZING:
+                  - Make BIGGER: increase h-16 and w-64 values (e.g., h-20 w-80, h-24 w-96)
+                  - Make SMALLER: decrease h-16 and w-64 values (e.g., h-12 w-48, h-10 w-40)
+                  
+                  Example adjustments:
+                  - <div className="relative h-20 w-80 mt-[-10px] ml-[20px]"> (bigger, up 10px, right 20px)
+                  - <div className="relative h-12 w-48 mt-[15px]"> (smaller, down 15px)
+              */}
               <div
                 className={`relative transition-all duration-300 ${
                   isFlickering
@@ -144,7 +159,7 @@ export default function FlickeringFooter() {
                     : "brightness-100"
                 }`}
               >
-                <div className="relative h-16 w-64">
+                <div className="relative h-16 w-64 ml-[-16px]">
                   <Image
                     src="/images/logo-light.svg"
                     alt="Ben Thomas Development Logo"
@@ -168,9 +183,7 @@ export default function FlickeringFooter() {
 
               {/* Bio section */}
               <div className="space-y-3">
-                <h3 className="text-xl font-semibold text-foreground">
-                  Ben Thomas
-                </h3>
+                {/* Removed "Ben Thomas" subheading */}
                 <p className="text-muted-foreground max-w-md leading-relaxed">
                   Full-Stack Developer specializing in React, TypeScript, and
                   modern web technologies. Passionate about creating elegant

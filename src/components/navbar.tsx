@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ChevronDown, Download, Eye, X } from "lucide-react";
+import { ChevronDown, Download, Eye } from "lucide-react";
 import { useTheme } from "next-themes";
 import MobileNav from "@/components/mobile-nav"; // Import the separate mobile component
 import "../styles/navbar.css";
@@ -21,8 +21,6 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isCvDropdownOpen, setIsCvDropdownOpen] = useState(false);
-  const [isPdfViewerOpen, setIsPdfViewerOpen] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState("");
   const { theme } = useTheme();
   const desktopDropdownRef = useRef<HTMLDivElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
@@ -108,16 +106,26 @@ export default function Navbar() {
     }
   };
 
-  const openPdfViewer = (url: string) => {
-    setPdfUrl(url);
-    setIsPdfViewerOpen(true);
+  const downloadCV = () => {
+    const link = document.createElement("a");
+    link.href = "/pdf/cv.pdf";
+    link.download = "Ben_Lombaard_CV.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setIsCvDropdownOpen(false);
+  };
+
+  const previewCV = () => {
+    console.log("Desktop CV Preview clicked, opening in new tab");
+    window.open("/pdf/cv.pdf", "_blank");
     setIsCvDropdownOpen(false);
   };
 
   const getDropdownTopPosition = () => {
     if (navbarRef.current) {
       const navbarHeight = navbarRef.current.clientHeight;
-      return `${navbarHeight + 8}px`;
+      return `${navbarHeight - 10}px`; // move up and down
     }
     return "72px";
   };
@@ -160,7 +168,10 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="navbar-right hidden md:flex items-center space-x-6">
+          <div
+            className="navbar-right hidden md:flex items-center space-x-6"
+            style={{ display: window.innerWidth < 768 ? "none" : undefined }}
+          >
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -189,17 +200,14 @@ export default function Navbar() {
               </button>
               {isCvDropdownOpen && (
                 <div
-                  className="dropdown-content absolute right-0 w-48 bg-background border border-border rounded-lg shadow-xl overflow-hidden z-[9999]"
+                  className="dropdown-content absolute right-0 w-48 bg-white dark:bg-black border border-border rounded-lg shadow-xl overflow-hidden z-[9999]"
                   style={{
                     top: getDropdownTopPosition(),
                   }}
                 >
                   <button
                     className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
-                    onClick={() => {
-                      window.open("/pdf/cv.pdf", "_blank");
-                      setIsCvDropdownOpen(false);
-                    }}
+                    onClick={downloadCV}
                   >
                     <Download className="h-4 w-4 text-primary" />
                     <span className="font-medium">Download</span>
@@ -207,7 +215,7 @@ export default function Navbar() {
                   <div className="border-t border-border/50" />
                   <button
                     className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
-                    onClick={() => openPdfViewer("/pdf/cv.pdf")}
+                    onClick={previewCV}
                   >
                     <Eye className="h-4 w-4 text-primary" />
                     <span className="font-medium">Preview</span>
@@ -217,47 +225,12 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile Navigation - Use separate component */}
-          <MobileNav onPdfView={openPdfViewer} />
-        </div>
-      </header>
-
-      {/* PDF Viewer Modal */}
-      <div
-        className={`pdf-viewer-container fixed inset-0 bg-background z-[100] transition-all duration-300 ${
-          isPdfViewerOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-      >
-        <div className="pdf-viewer-header flex items-center justify-between p-4 border-b border-border bg-background">
-          <h3 className="font-semibold text-lg text-foreground">
-            Curriculum Vitae
-          </h3>
-          <div className="flex items-center gap-2">
-            <button
-              className="hidden sm:flex px-3 py-2 text-sm bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
-              onClick={() => window.open("/pdf/cv.pdf", "_blank")}
-            >
-              Open in New Tab
-            </button>
-            <button
-              className="p-2 rounded-md hover:bg-primary/10 transition-colors"
-              onClick={() => setIsPdfViewerOpen(false)}
-              aria-label="Close PDF viewer"
-            >
-              <X className="h-5 w-5 text-foreground" />
-            </button>
+          {/* Mobile Navigation - dedicated component */}
+          <div className="md:hidden">
+            <MobileNav />
           </div>
         </div>
-        <div className="pdf-viewer-content flex-1 overflow-hidden">
-          {isPdfViewerOpen && (
-            <iframe
-              src={pdfUrl}
-              className="w-full h-full border-0"
-              title="PDF Viewer"
-            />
-          )}
-        </div>
-      </div>
+      </header>
     </>
   );
 }

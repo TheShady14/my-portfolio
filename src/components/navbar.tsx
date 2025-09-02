@@ -20,6 +20,7 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isCvDropdownOpen, setIsCvDropdownOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const desktopDropdownRef = useRef<HTMLDivElement>(null);
   const navbarRef = useRef<HTMLElement>(null);
 
@@ -51,7 +52,21 @@ export default function Navbar() {
     };
   }, [scrolled]);
 
-  // Handle click outside desktop dropdown only
+  useEffect(() => {
+    const checkScreenSize = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+
+    checkScreenSize();
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", checkScreenSize);
+      return () => window.removeEventListener("resize", checkScreenSize);
+    }
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -123,7 +138,7 @@ export default function Navbar() {
   const getDropdownTopPosition = () => {
     if (navbarRef.current) {
       const navbarHeight = navbarRef.current.clientHeight;
-      return `${navbarHeight - 10}px`; // move up and down
+      return `${navbarHeight - 10}px`;
     }
     return "72px";
   };
@@ -166,67 +181,68 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div
-            className="navbar-right hidden md:flex items-center space-x-6"
-            style={{ display: window.innerWidth < 768 ? "none" : undefined }}
-          >
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="nav-link text-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
-                onClick={(e) => handleSmoothScroll(e, item.href)}
-              >
-                {item.name}
-              </Link>
-            ))}
-
-            <ThemeToggle />
-
-            {/* Desktop CV Dropdown */}
-            <div className="dropdown-menu relative" ref={desktopDropdownRef}>
-              <button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 border border-primary/20 hover:border-primary/40 text-sm font-medium"
-                onClick={() => setIsCvDropdownOpen(!isCvDropdownOpen)}
-              >
-                <span>CV</span>
-                <ChevronDown
-                  className={`h-3 w-3 transition-transform duration-200 ${
-                    isCvDropdownOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {isCvDropdownOpen && (
-                <div
-                  className="dropdown-content absolute right-0 w-48 bg-white dark:bg-black border border-border rounded-lg shadow-xl overflow-hidden z-[9999]"
-                  style={{
-                    top: getDropdownTopPosition(),
-                  }}
+          {!isMobile && (
+            <div className="navbar-right hidden md:flex items-center space-x-6">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="nav-link text-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
+                  onClick={(e) => handleSmoothScroll(e, item.href)}
                 >
-                  <button
-                    className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
-                    onClick={downloadCV}
+                  {item.name}
+                </Link>
+              ))}
+
+              <ThemeToggle />
+
+              {/* Desktop CV Dropdown */}
+              <div className="dropdown-menu relative" ref={desktopDropdownRef}>
+                <button
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-200 border border-primary/20 hover:border-primary/40 text-sm font-medium"
+                  onClick={() => setIsCvDropdownOpen(!isCvDropdownOpen)}
+                >
+                  <span>CV</span>
+                  <ChevronDown
+                    className={`h-3 w-3 transition-transform duration-200 ${
+                      isCvDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {isCvDropdownOpen && (
+                  <div
+                    className="dropdown-content absolute right-0 w-48 bg-white dark:bg-black border border-border rounded-lg shadow-xl overflow-hidden z-[9999]"
+                    style={{
+                      top: getDropdownTopPosition(),
+                    }}
                   >
-                    <Download className="h-4 w-4 text-primary" />
-                    <span className="font-medium">Download</span>
-                  </button>
-                  <div className="border-t border-border/50" />
-                  <button
-                    className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
-                    onClick={previewCV}
-                  >
-                    <Eye className="h-4 w-4 text-primary" />
-                    <span className="font-medium">Preview</span>
-                  </button>
-                </div>
-              )}
+                    <button
+                      className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
+                      onClick={downloadCV}
+                    >
+                      <Download className="h-4 w-4 text-primary" />
+                      <span className="font-medium">Download</span>
+                    </button>
+                    <div className="border-t border-border/50" />
+                    <button
+                      className="dropdown-item w-full text-left hover:bg-primary/5 flex items-center gap-3 px-4 py-3 transition-colors"
+                      onClick={previewCV}
+                    >
+                      <Eye className="h-4 w-4 text-primary" />
+                      <span className="font-medium">Preview</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Mobile Navigation - dedicated component */}
-          <div className="md:hidden">
-            <MobileNav />
-          </div>
+          {isMobile && (
+            <div className="md:hidden">
+              <MobileNav />
+            </div>
+          )}
         </div>
       </header>
     </>

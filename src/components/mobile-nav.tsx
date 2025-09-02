@@ -22,8 +22,10 @@ export default function MobileNav({}: MobileNavProps) {
 
   useEffect(() => {
     console.log("MobileNav component mounted");
-    console.log("Window width:", window.innerWidth);
-    console.log("Is mobile viewport (< 768px):", window.innerWidth < 768);
+    if (typeof window !== "undefined") {
+      console.log("Window width:", window.innerWidth);
+      console.log("Is mobile viewport (< 768px):", window.innerWidth < 768);
+    }
 
     const checkVisibility = () => {
       if (mobileNavRef.current) {
@@ -48,8 +50,10 @@ export default function MobileNav({}: MobileNavProps) {
     setTimeout(checkVisibility, 100); // Check after render
 
     const handleResize = () => {
-      console.log("Window resized to:", window.innerWidth);
-      console.log("Should show mobile nav:", window.innerWidth < 768);
+      if (typeof window !== "undefined") {
+        console.log("Window resized to:", window.innerWidth);
+        console.log("Should show mobile nav:", window.innerWidth < 768);
+      }
       setTimeout(checkVisibility, 100);
     };
 

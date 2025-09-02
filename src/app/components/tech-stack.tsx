@@ -54,13 +54,15 @@ export default function TechStack() {
     setMounted(true);
 
     const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setScreenSize("mobile");
-      } else if (width < 768) {
-        setScreenSize("tablet");
-      } else {
-        setScreenSize("desktop");
+      if (typeof window !== "undefined") {
+        const width = window.innerWidth;
+        if (width < 640) {
+          setScreenSize("mobile");
+        } else if (width < 768) {
+          setScreenSize("tablet");
+        } else {
+          setScreenSize("desktop");
+        }
       }
     };
 

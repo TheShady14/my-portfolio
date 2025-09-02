@@ -6,8 +6,6 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 
 /**
- * InteractiveGridPattern is a component that renders a grid pattern with interactive squares.
- *
  * @param width - The width of each square.
  * @param height - The height of each square.
  * @param squares - The number of squares in the grid. The first element is the number of horizontal squares, and the second element is the number of vertical squares.
@@ -26,7 +24,7 @@ interface InteractiveGridPatternProps extends React.SVGProps<SVGSVGElement> {
  * The InteractiveGridPattern component.
  *
  * @see InteractiveGridPatternProps for the props interface.
- * @returns A React component.
+ * @returns
  */
 export function InteractiveGridPattern({
   width = 40,

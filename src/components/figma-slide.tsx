@@ -10,7 +10,7 @@ export default function FigmaSlide() {
           This section highlights design mockups created in Figma, showcasing
           layout ideas, UI styles, and component interactions for an early
           conceptualisation of the Appointment Engine project. I prefer to adapt
-          designs but am omfortable designing mockups and wireframes on Figma.
+          designs but am proficient designing mockups and wireframes on Figma.
         </p>
 
         <div className="bg-card/95 backdrop-blur-sm dark:bg-card/95 p-8 rounded-lg shadow-lg border border-border">

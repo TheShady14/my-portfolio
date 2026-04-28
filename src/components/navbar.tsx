@@ -3,7 +3,6 @@
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ChevronDown, Download, Eye } from "lucide-react";
 import MobileNav from "@/components/mobile-nav"; // Import the separate mobile component

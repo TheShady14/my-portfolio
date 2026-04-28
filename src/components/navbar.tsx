@@ -3,6 +3,7 @@
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ChevronDown, Download, Eye } from "lucide-react";
 import MobileNav from "@/components/mobile-nav"; // Import the separate mobile component
@@ -151,33 +152,7 @@ export default function Navbar() {
         } fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
       >
         <div className="navbar-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link
-            href="#hero"
-            className="flex items-center z-50"
-            onClick={(e) => handleSmoothScroll(e, "#hero")}
-          >
-            <div
-              className={`logo-container ${
-                scrolled ? "logo-expanded" : "logo-default"
-              }`}
-            >
-              <Image
-                src="/images/logo-light.svg"
-                alt="Ben Lombaard Development Logo"
-                fill
-                className="object-contain dark:hidden"
-                priority
-              />
-              <Image
-                src="/images/logo-dark.svg"
-                alt="Ben Lombaard Development Logo"
-                fill
-                className="object-contain hidden dark:block"
-                priority
-              />
-            </div>
-          </Link>
+          
 
           {/* Desktop Navigation */}
           {!isMobile && (
